@@ -11,6 +11,7 @@ public class GameState {
     private boolean[] skipFlags;
     private boolean newRound = true;
     public boolean isFirstRound = true;
+
     public GameState(ArrayList<Player> players) {
         this.players = players;
         this.lastPlayedCards = new ArrayList<>();

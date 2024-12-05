@@ -4,7 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.demo3.model.Card;
-import org.example.demo3.model.TienlenGameLogic1;
+import org.example.demo3.model.TienlenGame;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,11 +14,12 @@ import java.util.List;
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main-view.fxml"));
+        /*FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("/FXML/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);
-        stage.show();
+        stage.show();*/
+
     }
 
     public static void main(String[] args) {

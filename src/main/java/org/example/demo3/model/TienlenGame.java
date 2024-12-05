@@ -3,11 +3,11 @@ package org.example.demo3.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TienlenGameLogic1 {
+public class TienlenGame {
 
     private final GameState gameState;
     private boolean gameOver;
-    public TienlenGameLogic1(ArrayList<Player> players) {
+    public TienlenGame(ArrayList<Player> players) {
         this.gameState = new GameState(players);
         gameOver = false;
     }

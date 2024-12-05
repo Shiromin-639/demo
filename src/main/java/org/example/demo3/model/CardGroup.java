@@ -82,7 +82,6 @@ public class CardGroup {
     public int getHighestRank() {
         return cards.getLast().getRank();
     }
-
     public Card getHighesCard() {
         return cards.getLast();
     }

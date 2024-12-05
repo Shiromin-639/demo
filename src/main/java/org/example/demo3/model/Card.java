@@ -88,7 +88,7 @@ public class Card {
     }
 
     public String getPathName() {
-        return "images/" + this.toString() + ".png";
+        return "/images/" + this.toString() + ".png";
     }
 
     public Image getBackOfCardImage() throws NullPointerException {

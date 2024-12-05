@@ -26,12 +26,12 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeLabel();
+
     }
 
     @FXML
     public void onSwitchToBlackjackClicked() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("blackjack-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/blackjack-view.fxml"));
         Scene scene = new Scene(loader.load());
         Stage stage = (Stage) switchToBlackjack.getScene().getWindow();
         stage.setScene(scene);
@@ -39,7 +39,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void onSwitchToTienlenClicked() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("tienlen-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/tienlen-view.fxml"));
         Scene scene = new Scene(loader.load());
         Stage stage = (Stage) switchToTienlen.getScene().getWindow();
         stage.setScene(scene);

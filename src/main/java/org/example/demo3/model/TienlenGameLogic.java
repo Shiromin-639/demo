@@ -33,13 +33,7 @@ public class TienlenGameLogic {
         }
     }
 
-    public void nextTurn() {
-        if (activePlayers.size() == 1) {
-            resetRound();
-        } else {
-            currentPlayerIndex = (currentPlayerIndex + 1) % activePlayers.size();
-        }
-    }
+
 
     public void skipTurn() {
         Player currentPlayer = getCurrentPlayer();
@@ -57,12 +51,7 @@ public class TienlenGameLogic {
     }
 
 
-    public void resetRound() {
-        activePlayers.addAll(skippedPlayers);
-        skippedPlayers.clear();
-        currentPlayerIndex = 0;
-        lastPlayedCards.clear();
-    }
+
 
     public void setLastPlayedCards(ArrayList<Card> lastPlayedCards) {
         this.lastPlayedCards.clear();

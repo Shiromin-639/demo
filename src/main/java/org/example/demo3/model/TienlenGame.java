@@ -42,7 +42,6 @@ public class TienlenGameLogic1 {
     public boolean isGameOver() {
         return gameOver;
     }
-
     // kiểm tra tổ hợp bài đánh hợp lệ
     public static boolean canBeat(List<Card> selectedCards, List<Card> lastPlayedCards) {
         CardGroup selectedGroup = new CardGroup(selectedCards);
@@ -59,41 +58,28 @@ public class TienlenGameLogic1 {
                 return false;
             return (selectedGroup.getHighesCard()).compareTo(lastPlayedGroup.getHighesCard()) > 0;
         }
-
         if (selectedType == CardGroup.CardGroupType.FOUR_PAIRS) {
             if (lastPlayedType == CardGroup.CardGroupType.SINGLE || lastPlayedType == CardGroup.CardGroupType.PAIR) {
                 if (selectedCards.getFirst().getRank() == 15) return true;
             }
             if (lastPlayedType == CardGroup.CardGroupType.BOMB || lastPlayedType == CardGroup.CardGroupType.THREE_PAIRS)
                 return true;
-
         }
-
         if (selectedType == CardGroup.CardGroupType.THREE_PAIRS &&
                 lastPlayedType == CardGroup.CardGroupType.SINGLE &&
                 lastPlayedCards.getFirst().getRank() == 15)
         return true;
-
         if (selectedType == CardGroup.CardGroupType.BOMB) {
             if (lastPlayedType == CardGroup.CardGroupType.SINGLE || lastPlayedType == CardGroup.CardGroupType.PAIR) {
                 if (selectedCards.getFirst().getRank() == 15)
                     return true;
             }
-
             if (lastPlayedType == CardGroup.CardGroupType.THREE_PAIRS &&
                     selectedCards.getFirst().getRank() > lastPlayedGroup.getHighestRank())
                 return true;
-
         }
-
         return false;
-
     }
-
-    boolean validatePlay(ArrayList<Card> selectedCards, ArrayList<Card> lastPlayedCards) {
-        return true;
-    }
-
     // chia bài
     public void dealCards() {
         Deck deck = new Deck();
@@ -113,6 +99,9 @@ public class TienlenGameLogic1 {
     }
     public ArrayList<Card> getLastPlayedCards() {
         return gameState.getLastPlayedCards();
+    }
+    public ArrayList<Player> getPlayers() {
+        return gameState.getPlayers();
     }
 
 

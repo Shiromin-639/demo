@@ -128,8 +128,7 @@ public class TienlenController implements Initializable {
                     selectedCards.remove(card);
                     card.setSelected(false);
                     count--;
-                }
-                else {
+                } else {
                     selectedCards.add(card);
                     card.setSelected(true);
                     cardImageView.setTranslateY(-15);

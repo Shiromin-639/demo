@@ -40,7 +40,7 @@ public class TienlenController1 implements Initializable {
     private Button backToMenuButton;
 
     private TienlenGameLogic1 gameLogic;
-    private ArrayList<Card> selectedCards;
+    private ArrayList<Card> selectedCards = new ArrayList<>();
     private static int count;
 
     @Override
@@ -53,18 +53,32 @@ public class TienlenController1 implements Initializable {
         count = 0;
         this.gameLogic = new TienlenGameLogic1(players);
         gameLogic.dealCards();
-        currentPlayerLabel.setText("Current Player: " + gameLogic.getCurrentPlayer().getName());
-        //updateUI();
+        updateUI();
     }
 
     @FXML
     private void onPlay() {
-        
+        gameLogic.playTurn(selectedCards);
+        updateUI();
+        selectedCards.clear();
+        selectedCardsFlowPane.getChildren().clear();
     }
 
     @FXML
     private void onSkip() {
+        if (gameLogic.getGameState().isNewRound()) return;
+        gameLogic.skipTurn();
+        selectedCards.clear();
+        selectedCardsFlowPane.getChildren().clear();
+        updateUI();
+    }
 
+    @FXML
+    public void onBackToMenuButtonClicked() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+        Scene scene = new Scene(loader.load());
+        Stage stage = (Stage) backToMenuButton.getScene().getWindow();
+        stage.setScene(scene);
     }
 
     private void updateUI() {
@@ -76,12 +90,14 @@ public class TienlenController1 implements Initializable {
     private void renderLastPlayedCards() {
         renderCards(gameLogic.getLastPlayedCards(), lastPlayedCardsFlowPane);
     }
-    private void renderGameState() {
-        currentPlayerLabel.setText("Current Player: " + gameLogic.getCurrentPlayer().getName());
-        countLabel.setText("count: " + Integer.toString(count));
+    private void renderSelectedCards() {
+        renderCards(selectedCards, selectedCardsFlowPane);
     }
-    private void renderHand(Player currentPlayer, FlowPane currentPlayerHand) {
 
+    private void renderHand(Player currentPlayer, FlowPane currentPlayerHand) {
+        if (currentPlayer.getHand().isEmpty())
+            return;
+        currentPlayerHand.getChildren().clear();
         for (Card card : currentPlayer.getHand()) {
             ImageView cardImageView = new ImageView(new Image(Objects.requireNonNull(
                     getClass().getResourceAsStream(card.getPathName())
@@ -91,22 +107,19 @@ public class TienlenController1 implements Initializable {
             cardImageView.setFitHeight(145.2);
 
             cardImageView.setOnMouseClicked(mouseEvent -> {
-
-                //manageSelectedCard((int) cardImageView.getUserData());
                 if (card.isSelected()) {
                     cardImageView.setTranslateY(0);
                     selectedCards.remove(card);
                     card.setSelected(false);
                     count--;
-                }
-                else {
+                } else {
                     selectedCards.add(card);
                     card.setSelected(true);
                     cardImageView.setTranslateY(-15);
                     count++;
                     //cardImageView.setStyle("-fx-effect: dropshadow(gaussian, yellow, 10, 0, 0, 0);");
                 }
-                renderCards(selectedCards, selectedCardsFlowPane);
+                renderSelectedCards();
             });
             currentPlayerHand.getChildren().add(cardImageView);
         }
@@ -124,13 +137,10 @@ public class TienlenController1 implements Initializable {
             cardsFlowPane.getChildren().add(cardImageView);
         }
     }
-
-
-    @FXML
-    public void onBackToMenuButtonClicked() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
-        Scene scene = new Scene(loader.load());
-        Stage stage = (Stage) backToMenuButton.getScene().getWindow();
-        stage.setScene(scene);
+    private void renderGameState() {
+        currentPlayerLabel.setText("Current Player: " + gameLogic.getCurrentPlayer().getName());
+        countLabel.setText("count: " + Integer.toString(count));
     }
+
+
 }

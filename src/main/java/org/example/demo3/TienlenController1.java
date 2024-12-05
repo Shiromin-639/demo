@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -31,7 +32,8 @@ public class TienlenController1 implements Initializable {
     private Label countLabel;
     @FXML
     private Label currentPlayerLabel;
-
+    @FXML
+    private Label gameStatusLabel;
     @FXML
     private Button play;
     @FXML
@@ -40,7 +42,7 @@ public class TienlenController1 implements Initializable {
     private Button backToMenuButton;
 
     private TienlenGameLogic1 gameLogic;
-    private ArrayList<Card> selectedCards = new ArrayList<>();
+    private final ArrayList<Card> selectedCards = new ArrayList<>();
     private static int count;
 
     @Override
@@ -56,29 +58,34 @@ public class TienlenController1 implements Initializable {
         updateUI();
     }
 
+    // xử lí gui khi click đánh bài
     @FXML
     private void onPlay() {
-        /*gameLogic.playTurn(selectedCards);
-        updateUI();
-        selectedCards.clear();
-        selectedCardsFlowPane.getChildren().clear();*/
-
-        if (selectedCards.isEmpty()) return;
+        ArrayList<Card> selectedCards = getSelectedCards();
+        if (selectedCards.isEmpty()) {
+            gameStatusLabel.setText("Bạn phải chọn bài để đánh");
+            return;
+        }
         boolean success = gameLogic.playTurn(selectedCards);
         if (success) {
+            if (gameLogic.isGameOver()) {
+                Player winner = gameLogic.getCurrentPlayer();
+                handleGameOver(winner);
+            }
             updateUI();
-            selectedCards.clear();
-            selectedCardsFlowPane.getChildren().clear();
+        } else {
+            gameStatusLabel.setText("Tổ hợp không hợp lệ, vui lòng chọn lại");
         }
     }
+
+    //  xử lí gui khi cleck bỏ lượt
     @FXML
     private void onSkip() {
-        if (gameLogic.getGameState().isNewRound()) return;
         gameLogic.skipTurn();
-        selectedCards.clear();
-        selectedCardsFlowPane.getChildren().clear();
         updateUI();
     }
+
+    // nút trở về menu
     @FXML
     public void onBackToMenuButtonClicked() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
@@ -87,48 +94,42 @@ public class TienlenController1 implements Initializable {
         stage.setScene(scene);
     }
 
+    // cập nhật gui sau khi người chơi thực hiện 1 thac tác đánh hoặc bỏ lượt
     private void updateUI() {
         renderHand(gameLogic.getCurrentPlayer(), currentPlayerHandFlowPane);
         renderLastPlayedCards();
         renderGameState();
+        clearSelectedCard();
     }
 
+    //xử lí khi game over
+    private void handleGameOver(Player winner) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText("Please end game");
+        alert.showAndWait();
+    }
+
+    //hiển thị bài vừa đánh(chưa ai chặn)
     private void renderLastPlayedCards() {
         renderCards(gameLogic.getLastPlayedCards(), lastPlayedCardsFlowPane);
     }
+    //hiển thị bài đang được chọn
     private void renderSelectedCards() {
         renderCards(selectedCards, selectedCardsFlowPane);
     }
+
+    //hiển thị bài trên tay của người chơi hiện tại
     private void renderHand(Player currentPlayer, FlowPane currentPlayerHand) {
         if (currentPlayer.getHand().isEmpty())
             return;
         currentPlayerHand.getChildren().clear();
         for (Card card : currentPlayer.getHand()) {
-            ImageView cardImageView = new ImageView(new Image(Objects.requireNonNull(
-                    getClass().getResourceAsStream(card.getPathName())
-            )));
-
-            cardImageView.setFitWidth(100);
-            cardImageView.setFitHeight(145.2);
-
-            cardImageView.setOnMouseClicked(mouseEvent -> {
-                if (card.isSelected()) {
-                    cardImageView.setTranslateY(0);
-                    selectedCards.remove(card);
-                    card.setSelected(false);
-                    count--;
-                } else {
-                    selectedCards.add(card);
-                    card.setSelected(true);
-                    cardImageView.setTranslateY(-15);
-                    count++;
-                    //cardImageView.setStyle("-fx-effect: dropshadow(gaussian, yellow, 10, 0, 0, 0);");
-                }
-                renderSelectedCards();
-            });
+            ImageView cardImageView = createCardImageView(card);
             currentPlayerHand.getChildren().add(cardImageView);
         }
     }
+
     private void renderCards(ArrayList<Card> cards, FlowPane cardsFlowPane) {
         if(cards == null) return;
         cardsFlowPane.getChildren().clear();
@@ -142,10 +143,42 @@ public class TienlenController1 implements Initializable {
             cardsFlowPane.getChildren().add(cardImageView);
         }
     }
+
+    //hiển thị các thành phần biểu tượng, thông báo của game
     private void renderGameState() {
         currentPlayerLabel.setText("Current Player: " + gameLogic.getCurrentPlayer().getName());
         countLabel.setText("count: " + Integer.toString(count));
+        gameStatusLabel.setText("gameStatusLabel: ");
     }
 
+    //tạo imageView
+    private ImageView createCardImageView(Card card) {
+        ImageView cardImageView = new ImageView(new Image(Objects.requireNonNull(
+                getClass().getResourceAsStream(card.getPathName())
+        )));
+        cardImageView.setFitWidth(100);
+        cardImageView.setFitHeight(145.2);
+        cardImageView.setOnMouseClicked(mouseEvent -> toggleCardSelection(card, cardImageView));
+        return cardImageView;
+    }
 
+    //xử lí sự kiện chọn bài
+    private void toggleCardSelection(Card card, ImageView cardImageView) {
+        if (selectedCards.contains(card)) {
+            selectedCards.remove(card);
+            cardImageView.setTranslateY(0);
+        } else {
+            selectedCards.add(card);
+            cardImageView.setTranslateY(-15);
+        }
+        renderSelectedCards();
+    }
+    public ArrayList<Card> getSelectedCards() {
+        return new ArrayList<>(selectedCards);
+    }
+
+    public void clearSelectedCard() {
+        this.selectedCards.clear();
+        selectedCardsFlowPane.getChildren().clear();
+    }
 }

@@ -6,34 +6,95 @@ import java.util.List;
 public class TienlenGameLogic1 {
 
     private final GameState gameState;
-
+    private boolean gameOver;
     public TienlenGameLogic1(ArrayList<Player> players) {
         this.gameState = new GameState(players);
+        gameOver = false;
     }
-
+    // thao tác đánh bài
     public boolean playTurn(ArrayList<Card> selectedCards) {
-        /*getCurrentPlayer().getHand().removeAll(selectedCards);
-        if (gameState.isGameEnded())
-        gameState.setLastPlayedCards(selectedCards);
-        gameState.playTurn(); */
         boolean isValid = canBeat(selectedCards, gameState.getLastPlayedCards());
         if (isValid) {
             gameState.setLastPlayedCards(selectedCards);
+            gameState.setLastPlayerToPlay(getCurrentPlayer());
             getCurrentPlayer().getHand().removeAll(selectedCards);
-            gameState.playTurn();
-        }
 
+            if (getCurrentPlayer().getHand().isEmpty()) {
+                gameOver = true;
+                return true;
+            }
+            //if (getCurrentPlayer().getHand().isEmpty()) {}
+            gameState.moveToNextPlayer();
+            gameState.setNewRound(false);
+        }
         return isValid;
     }
-
+    // thao tác bỏ lượt
     public void skipTurn() {
-        gameState.skipTurn();
+        if (gameState.isNewRound()) return;
+        gameState.skipCurrentPlayer();
+        if (gameState.isRoundEnded()) {
+            gameState.startNewRound();
+            gameState.setNewRound(true);
+        }
     }
+    // kiểm tra game đã kết thúc chưa
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    // kiểm tra tổ hợp bài đánh hợp lệ
+    public static boolean canBeat(List<Card> selectedCards, List<Card> lastPlayedCards) {
+        CardGroup selectedGroup = new CardGroup(selectedCards);
+        CardGroup.CardGroupType selectedType = selectedGroup.getCardGroupType();
+        if (selectedType == CardGroup.CardGroupType.INVALID)
+            return false;
+        if (lastPlayedCards.isEmpty())
+            return true;
+        CardGroup lastPlayedGroup = new CardGroup(lastPlayedCards);
+        CardGroup.CardGroupType lastPlayedType = lastPlayedGroup.getCardGroupType();
+
+        if (selectedType == lastPlayedType) {
+            if (selectedType == CardGroup.CardGroupType.STRAIGHT && selectedCards.size() != lastPlayedCards.size())
+                return false;
+            return (selectedGroup.getHighesCard()).compareTo(lastPlayedGroup.getHighesCard()) > 0;
+        }
+
+        if (selectedType == CardGroup.CardGroupType.FOUR_PAIRS) {
+            if (lastPlayedType == CardGroup.CardGroupType.SINGLE || lastPlayedType == CardGroup.CardGroupType.PAIR) {
+                if (selectedCards.getFirst().getRank() == 15) return true;
+            }
+            if (lastPlayedType == CardGroup.CardGroupType.BOMB || lastPlayedType == CardGroup.CardGroupType.THREE_PAIRS)
+                return true;
+
+        }
+
+        if (selectedType == CardGroup.CardGroupType.THREE_PAIRS &&
+                lastPlayedType == CardGroup.CardGroupType.SINGLE &&
+                lastPlayedCards.getFirst().getRank() == 15)
+        return true;
+
+        if (selectedType == CardGroup.CardGroupType.BOMB) {
+            if (lastPlayedType == CardGroup.CardGroupType.SINGLE || lastPlayedType == CardGroup.CardGroupType.PAIR) {
+                if (selectedCards.getFirst().getRank() == 15)
+                    return true;
+            }
+
+            if (lastPlayedType == CardGroup.CardGroupType.THREE_PAIRS &&
+                    selectedCards.getFirst().getRank() > lastPlayedGroup.getHighestRank())
+                return true;
+
+        }
+
+        return false;
+
+    }
+
     boolean validatePlay(ArrayList<Card> selectedCards, ArrayList<Card> lastPlayedCards) {
         return true;
     }
 
-
+    // chia bài
     public void dealCards() {
         Deck deck = new Deck();
         int playerIndex = 0;
@@ -55,24 +116,7 @@ public class TienlenGameLogic1 {
     }
 
 
-    public static boolean canBeat(List<Card> selectedCards, List<Card> lastPlayedCards) {
-        CardGroup selectedGroup = new CardGroup(selectedCards);
-        CardGroup.CardGroupType selectedType = selectedGroup.getCardGroupType();
-        if (selectedType == CardGroup.CardGroupType.INVALID)
-            return false;
-        if (lastPlayedCards.isEmpty())
-            return true;
-        CardGroup lastPlayedGroup = new CardGroup(lastPlayedCards);
-        CardGroup.CardGroupType lastPlayedType = lastPlayedGroup.getCardGroupType();
 
-        if (selectedType == lastPlayedType) {
-            if (selectedType == CardGroup.CardGroupType.STRAIGHT && selectedCards.size() != lastPlayedCards.size())
-                return false;
-            return (selectedGroup.getHighesCard()).compareTo(lastPlayedGroup.getHighesCard()) > 0;
-        }
-
-        return selectedType == CardGroup.CardGroupType.BOMB;
-    }
 
 
 }

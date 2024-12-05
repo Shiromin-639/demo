@@ -21,5 +21,6 @@
       <FlowPane fx:id="lastPlayedCardsFlowPane" layoutX="241.0" layoutY="453.0" prefHeight="120.0" prefWidth="341.0" />
       <Label layoutX="95.0" layoutY="504.0" text="Last Played Cards" />
       <FlowPane fx:id="selectedCardsFlowPane" layoutX="223.0" layoutY="313.0" prefHeight="173.0" prefWidth="377.0" />
+      <Label fx:id="gameStatusLabel" layoutX="68.0" layoutY="432.0" text="Label" />
    </children>
 </AnchorPane>

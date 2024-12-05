@@ -4,14 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TienlenGameLogic1 {
-    public enum PlayType {
-        SINGLE,
-        PAIR,
-        TRIPLE,
-        STRAIGHT,
-        BOMB,
-        INVALID
-    }
 
     private final GameState gameState;
 
@@ -19,14 +11,28 @@ public class TienlenGameLogic1 {
         this.gameState = new GameState(players);
     }
 
-    public void playTurn(ArrayList<Card> selectedCards) {
-        getCurrentPlayer().getHand().removeAll(selectedCards);
+    public boolean playTurn(ArrayList<Card> selectedCards) {
+        /*getCurrentPlayer().getHand().removeAll(selectedCards);
+        if (gameState.isGameEnded())
         gameState.setLastPlayedCards(selectedCards);
-        gameState.playTurn();
+        gameState.playTurn(); */
+        boolean isValid = canBeat(selectedCards, gameState.getLastPlayedCards());
+        if (isValid) {
+            gameState.setLastPlayedCards(selectedCards);
+            getCurrentPlayer().getHand().removeAll(selectedCards);
+            gameState.playTurn();
+        }
+
+        return isValid;
     }
+
     public void skipTurn() {
         gameState.skipTurn();
     }
+    boolean validatePlay(ArrayList<Card> selectedCards, ArrayList<Card> lastPlayedCards) {
+        return true;
+    }
+
 
     public void dealCards() {
         Deck deck = new Deck();
@@ -51,18 +57,21 @@ public class TienlenGameLogic1 {
 
     public static boolean canBeat(List<Card> selectedCards, List<Card> lastPlayedCards) {
         CardGroup selectedGroup = new CardGroup(selectedCards);
-        CardGroup lastPlayedGroup = new CardGroup(lastPlayedCards);
-
         CardGroup.CardGroupType selectedType = selectedGroup.getCardGroupType();
+        if (selectedType == CardGroup.CardGroupType.INVALID)
+            return false;
+        if (lastPlayedCards.isEmpty())
+            return true;
+        CardGroup lastPlayedGroup = new CardGroup(lastPlayedCards);
         CardGroup.CardGroupType lastPlayedType = lastPlayedGroup.getCardGroupType();
 
-        if (selectedType == CardGroup.CardGroupType.INVALID ||
-            lastPlayedType == CardGroup.CardGroupType.INVALID)
-            return false;
-
         if (selectedType == lastPlayedType) {
-
+            if (selectedType == CardGroup.CardGroupType.STRAIGHT && selectedCards.size() != lastPlayedCards.size())
+                return false;
+            return (selectedGroup.getHighesCard()).compareTo(lastPlayedGroup.getHighesCard()) > 0;
         }
+
+        return selectedType == CardGroup.CardGroupType.BOMB;
     }
 
 

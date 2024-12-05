@@ -8,7 +8,6 @@ public class GameState {
     private ArrayList<Card> lastPlayedCards;
     private Player lastPlayerToPlay;
     private int currentPlayerIndex;
-    private boolean gameEnded;
     private boolean[] skipFlags;
     public static int numOfActivePlayers;
     public boolean newRound;
@@ -18,7 +17,6 @@ public class GameState {
         this.lastPlayerToPlay = null;
         this.currentPlayerIndex = 0;
         this.skipFlags = new boolean[players.size()];
-        this.gameEnded = false;
         this.newRound = true;
         numOfActivePlayers = players.size();
         resetSkipFlags();
@@ -67,6 +65,11 @@ public class GameState {
     public boolean isNewRound() {
         return newRound;
     }
+
+    public boolean isGameEnded() {
+        return getCurrentPlayer().getHand().isEmpty();
+    }
+
     public Player getCurrentPlayer() {
         return players.get(currentPlayerIndex);
     }

@@ -18,15 +18,19 @@ public class CardGroup {
 
     public CardGroup(List<Card> cards) {
         this.cards = new ArrayList<>(cards);
-        this.cards.sort(Comparator.comparingInt(Card::getRank));
+        this.cards.sort((c1, c2) -> {
+            if (c1.getRank() != c2.getRank()) {
+                return Integer.compare(c1.getRank(), c2.getRank());
+            }
+            return Integer.compare(c1.getSuitRank(), c2.getSuitRank());
+        });
     }
 
     public CardGroupType getCardGroupType() {
-        int size = cards.size();
-        if (size == 1) return CardGroupType.SINGLE;
+        if (cards.size() == 1) return CardGroupType.SINGLE;
         if (isPair()) return CardGroupType.PAIR;
         if (isTriple()) return CardGroupType.TRIPLE;
-        if (isStraight()) return CardGroupType.STRAIGHT;
+        if (cards.size() >= 3 && isStraight()) return CardGroupType.STRAIGHT;
         if (isBomb()) return CardGroupType.BOMB;
         return CardGroupType.INVALID;
     }
@@ -60,5 +64,9 @@ public class CardGroup {
 
     public int getHighestRank() {
         return cards.getLast().getRank();
+    }
+
+    public Card getHighesCard() {
+        return cards.getLast();
     }
 }

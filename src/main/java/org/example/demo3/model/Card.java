@@ -30,6 +30,21 @@ public class Card {
         return suit;
     }
 
+    public int getSuitRank() {
+        return switch (suit) {
+            case "spades" -> 1;
+            case "clubs" -> 2;
+            case "diamonds" -> 3;
+            case "hearts" -> 4;
+            default -> 0;
+        };
+    }
+    public int compareTo(Card other) {
+        if (this.rank != other.rank) {
+            return Integer.compare(this.rank, other.rank);
+        }
+        return Integer.compare(this.getSuitRank(), other.getSuitRank());
+    }
     public int getValue() {
         if(rank == 15)
             return 2;

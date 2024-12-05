@@ -58,12 +58,19 @@ public class TienlenController1 implements Initializable {
 
     @FXML
     private void onPlay() {
-        gameLogic.playTurn(selectedCards);
+        /*gameLogic.playTurn(selectedCards);
         updateUI();
         selectedCards.clear();
-        selectedCardsFlowPane.getChildren().clear();
-    }
+        selectedCardsFlowPane.getChildren().clear();*/
 
+        if (selectedCards.isEmpty()) return;
+        boolean success = gameLogic.playTurn(selectedCards);
+        if (success) {
+            updateUI();
+            selectedCards.clear();
+            selectedCardsFlowPane.getChildren().clear();
+        }
+    }
     @FXML
     private void onSkip() {
         if (gameLogic.getGameState().isNewRound()) return;
@@ -72,7 +79,6 @@ public class TienlenController1 implements Initializable {
         selectedCardsFlowPane.getChildren().clear();
         updateUI();
     }
-
     @FXML
     public void onBackToMenuButtonClicked() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main-view.fxml"));
@@ -93,7 +99,6 @@ public class TienlenController1 implements Initializable {
     private void renderSelectedCards() {
         renderCards(selectedCards, selectedCardsFlowPane);
     }
-
     private void renderHand(Player currentPlayer, FlowPane currentPlayerHand) {
         if (currentPlayer.getHand().isEmpty())
             return;

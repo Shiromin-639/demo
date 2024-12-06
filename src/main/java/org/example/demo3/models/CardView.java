@@ -1,4 +1,4 @@
-package org.example.demo3.model;
+package org.example.demo3.models;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

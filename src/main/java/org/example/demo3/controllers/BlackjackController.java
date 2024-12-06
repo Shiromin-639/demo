@@ -1,4 +1,4 @@
-package org.example.demo3;
+package org.example.demo3.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import org.example.demo3.model.BlackjackGameLogic;
-import org.example.demo3.model.Card;
-import org.example.demo3.model.Deck;
-import org.example.demo3.model.Player;
+import org.example.demo3.models.BlackjackGameLogic;
+import org.example.demo3.models.Card;
+import org.example.demo3.models.Player;
 
 import java.io.IOException;
 import java.net.URL;

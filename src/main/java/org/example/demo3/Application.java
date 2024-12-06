@@ -1,15 +1,9 @@
 package org.example.demo3;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.demo3.model.Card;
-import org.example.demo3.model.TienlenGame;
+import org.example.demo3.views.ViewFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Application extends javafx.application.Application {
     @Override
@@ -19,6 +13,8 @@ public class Application extends javafx.application.Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();*/
+        ViewFactory viewFactory = new ViewFactory();
+        viewFactory.showMenuWindow();
 
     }
 

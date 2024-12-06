@@ -1,4 +1,4 @@
-package org.example.demo3.model;
+package org.example.demo3.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,10 +84,11 @@ public class TienlenGame {
     public void dealCards() {
         Deck deck = new Deck();
         int playerIndex = 0;
-        while (!deck.isEmpty()) {
-            Player currentPlayer = gameState.getPlayers().get(playerIndex);
-            currentPlayer.drawCard(deck);
-            playerIndex = (playerIndex + 1) % gameState.getPlayers().size();
+        for (int i = 0; i < getPlayers().size(); i++) {
+            Player player = gameState.getPlayers().get(i);
+            for (int j = 0; j < 13; j++) {
+                player.drawCard(deck);
+            }
         }
     }
 

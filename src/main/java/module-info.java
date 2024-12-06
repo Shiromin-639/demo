@@ -7,5 +7,9 @@ module org.example.demo3 {
 
     opens org.example.demo3 to javafx.fxml;
     exports org.example.demo3;
+    exports org.example.demo3.controllers;
+    exports org.example.demo3.views;
+    exports org.example.demo3.models;
+    opens org.example.demo3.controllers to javafx.fxml;
 
 }

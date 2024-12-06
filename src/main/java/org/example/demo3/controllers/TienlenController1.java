@@ -1,4 +1,4 @@
-package org.example.demo3;
+package org.example.demo3.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,10 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.example.demo3.model.*;
+import org.example.demo3.models.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -132,7 +131,8 @@ public class TienlenController1 implements Initializable {
             )));
             cardImageView.setFitWidth(80);
             cardImageView.setFitHeight(100);
-            StackPane.setMargin(cardImageView, new javafx.geometry.Insets(0, 0, 0, (i++) * 30));
+            cardImageView.setTranslateX((i++)*20 - 10*player.getHand().size());
+            //StackPane.setMargin(cardImageView, new javafx.geometry.Insets(0, 0, 0, (i++) * 30));
             playerStackPane.getChildren().add(cardImageView);
         }
     }

@@ -16,22 +16,22 @@ public class BlackjackGameLogic {
     }
 
     public void dealInitialCards() {
-        this.deck = new Deck();
+
         for (Player player : players) {
-            player.drawCard(deck);
-            player.drawCard(deck);
+            player.drawCard();
+            player.drawCard();
         }
-        dealer.drawCard(deck);
-        dealer.drawCard(deck);
+        dealer.drawCard();
+        dealer.drawCard();
     }
 
     public void playerHit(Player player) {
-        player.drawCard(deck);
+        player.drawCard();
     }
 
     public void dealerTurn() {
         while (calculateScore(dealer) < 17) {
-            dealer.drawCard(deck);
+            dealer.drawCard();
         }
     }
 

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demo3.controllers.TienlenController1">
+<BorderPane stylesheets="@../Style/tienlen.css" fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.demo3.controllers.TienlenController1">
    <top>
       <StackPane fx:id="topStackPane" prefHeight="143.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -15,12 +15,12 @@
       </StackPane>
    </top>
    <left>
-      <StackPane fx:id="leftStackPane" prefHeight="406.0" prefWidth="378.0" BorderPane.alignment="CENTER" />
+      <StackPane fx:id="leftStackPane" prefHeight="400.0" prefWidth="370.0" BorderPane.alignment="CENTER" />
    </left>
    <right>
-      <StackPane fx:id="rightStackPane" prefHeight="375.0" prefWidth="431.0" BorderPane.alignment="CENTER">
+      <StackPane fx:id="rightStackPane" prefHeight="400.0" prefWidth="370.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets right="30.0" top="30.0" />
+            <Insets />
          </BorderPane.margin></StackPane>
    </right>
    <bottom>
@@ -29,9 +29,9 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <StackPane fx:id="lastPlayedCardsStackPane" layoutX="-5.0" layoutY="121.0" prefHeight="150.0" prefWidth="454.0" />
-            <Button fx:id="play" layoutX="107.0" layoutY="301.0" mnemonicParsing="false" onAction="#onPlay" text="Play" />
-            <Button fx:id="skip" layoutX="265.0" layoutY="301.0" mnemonicParsing="false" onAction="#onSkip" text="Skip" />
+            <StackPane fx:id="lastPlayedCardsStackPane" layoutX="-5.0" layoutY="121.0" prefHeight="150.0" prefWidth="454.0" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0" />
+            <Button fx:id="play" layoutX="107.0" layoutY="301.0" mnemonicParsing="false" onAction="#onPlay" text="Play" AnchorPane.leftAnchor="150.0" />
+            <Button fx:id="skip" layoutX="274.0" layoutY="301.0" mnemonicParsing="false" onAction="#onSkip" prefHeight="26.0" prefWidth="43.0" text="Skip" AnchorPane.leftAnchor="274.0" AnchorPane.rightAnchor="142.0" />
          </children>
       </AnchorPane>
    </center>

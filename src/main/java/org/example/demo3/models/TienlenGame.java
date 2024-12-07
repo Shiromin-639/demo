@@ -82,12 +82,11 @@ public class TienlenGame {
     }
     // chia bài
     public void dealCards() {
-        Deck deck = new Deck();
-        int playerIndex = 0;
+
         for (int i = 0; i < getPlayers().size(); i++) {
             Player player = gameState.getPlayers().get(i);
             for (int j = 0; j < 13; j++) {
-                player.drawCard(deck);
+                player.drawCard();
             }
         }
     }

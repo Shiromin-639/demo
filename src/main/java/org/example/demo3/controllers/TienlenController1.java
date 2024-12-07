@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.example.demo3.models.*;
@@ -16,6 +17,7 @@ import org.example.demo3.models.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -31,7 +33,8 @@ public class TienlenController1 implements Initializable {
     private StackPane botStackPane;
     @FXML
     private StackPane lastPlayedCardsStackPane;
-
+    @FXML
+    private BorderPane rootPane;
 
     @FXML
     private Label currentPlayerLabel;
@@ -46,12 +49,13 @@ public class TienlenController1 implements Initializable {
 
     private TienlenGame gameLogic;
     private final ArrayList<Card> selectedCards = new ArrayList<>();
+    private List<CardImage> cardImages = new ArrayList<>();
     private static int count;
     private final StackPane[] stackPanes = {rightStackPane, topStackPane, leftStackPane, botStackPane};
     public TienlenController1() {}
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        StackPane[] stackPanes = {rightStackPane, topStackPane, leftStackPane, botStackPane};
+        //StackPane[] stackPanes = {rightStackPane, topStackPane, leftStackPane, botStackPane};
         ArrayList<Player> players = new ArrayList<>();
         players.add(new Player("Player1"));
         players.add(new Player("Player2"));
@@ -178,8 +182,18 @@ public class TienlenController1 implements Initializable {
     public ArrayList<Card> getSelectedCards() {
         return new ArrayList<>(selectedCards);
     }
+    /*public List<Card> getSelectedCardsFromUI() {
+        List<Card> selectedCards = new ArrayList<>();
 
+        for (CardImage cardImage : cardImages) {
+            if (cardImage.isSlected()) {
+                selectedCards.add(cardImage.getCard());
+            }
+        }
+
+    }*/
     public void clearSelectedCard() {
         this.selectedCards.clear();
     }
+
 }

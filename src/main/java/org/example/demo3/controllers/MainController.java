@@ -6,7 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.demo3.models.Model;
 
@@ -31,7 +32,7 @@ public class MainController implements Initializable {
             try {
                 startMenu.setCenter(Model.getInstance().getViewFactory().getTienlenMenuView());
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         });
         blackjack_Button.setOnAction(actionEvent -> {

@@ -1,15 +1,29 @@
 package org.example.demo3.models;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Deck {
+    public static Deck deck;
     private List<Card> cards;
 
-    public Deck() {
-        cards = Card.createDeck();
+    private Deck() {
+        cards = new ArrayList<>();
+        String[] suits = {"clubs", "diamonds", "hearts", "spades"};
+        for (String suit : suits) {
+            for (int rank = 3; rank <= 15; rank++) {
+                cards.add(new Card(rank, suit));
+            }
+        }
         shuffle();
+    }
+    public static synchronized Deck getInstance() {
+        if (deck == null) {
+            deck = new Deck();
+        }
+        return deck;
     }
 
     public void shuffle() {

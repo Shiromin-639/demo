@@ -25,10 +25,10 @@ public class TienlenGameLogic {
     }
 
     public void dealCards() {
-        deck = new Deck();
+
         for (Player player : players) {
             for (int i = 0; i < 13; i++) {
-                player.drawCard(deck);
+                player.drawCard();
             }
         }
     }
